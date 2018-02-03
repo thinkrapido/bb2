@@ -1,3 +1,7 @@
+
+mod utils;
+pub mod tiles;
+
 #[cfg(test)]
 mod tests {
     #[test]
