@@ -1,6 +1,6 @@
 
 mod utils;
-pub mod tiles;
+pub mod world;
 
 #[cfg(test)]
 mod tests {
