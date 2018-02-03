@@ -1,7 +1,6 @@
 [package]
-name = "bb2"
+name = "game"
 version = "0.1.0"
 authors = ["Romeo Disca <romeo.disca@gmail.com>"]
 
 [dependencies]
-game = { path = "lib/game" }
