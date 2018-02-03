@@ -675,27 +675,27 @@
   <image source="../sprites/objects/Tree0.png" trans="ffffff" width="128" height="528"/>
   <tile id="0">
    <properties>
-    <property name="Density" type="float" value="1.3"/>
+    <property name="Penalty" type="float" value="1.3"/>
    </properties>
   </tile>
   <tile id="5">
    <properties>
-    <property name="Density" type="float" value="1.6"/>
+    <property name="Penalty" type="float" value="1.6"/>
    </properties>
   </tile>
   <tile id="7">
    <properties>
-    <property name="Density" type="float" value="1.6"/>
+    <property name="Penalty" type="float" value="1.6"/>
    </properties>
   </tile>
   <tile id="27">
    <properties>
-    <property name="Density" type="float" value="1.4"/>
+    <property name="Penalty" type="float" value="1.4"/>
    </properties>
   </tile>
   <tile id="247">
    <properties>
-    <property name="Density" type="float" value="1.5"/>
+    <property name="Penalty" type="float" value="1.5"/>
    </properties>
   </tile>
  </tileset>
@@ -703,77 +703,77 @@
   <image source="../sprites/objects/Hill0.png" trans="ffffff" width="256" height="288"/>
   <tile id="4">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="5">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="6">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="7">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="20">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="21">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="22">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="23">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="28">
    <properties>
-    <property name="Density" type="float" value="1.3"/>
+    <property name="Penalty" type="float" value="1.3"/>
    </properties>
   </tile>
   <tile id="29">
    <properties>
-    <property name="Density" type="float" value="1.3"/>
+    <property name="Penalty" type="float" value="1.3"/>
    </properties>
   </tile>
   <tile id="30">
    <properties>
-    <property name="Density" type="float" value="1.3"/>
+    <property name="Penalty" type="float" value="1.3"/>
    </properties>
   </tile>
   <tile id="36">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="37">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="38">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
   <tile id="39">
    <properties>
-    <property name="Density" type="float" value="2.2"/>
+    <property name="Penalty" type="float" value="2.2"/>
    </properties>
   </tile>
  </tileset>
