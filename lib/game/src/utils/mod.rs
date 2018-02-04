@@ -1,4 +1,6 @@
 
+pub mod tmx;
+
 pub fn epsilon(num1: f32, num2: f32, epsilon: f32) -> bool {
     return (num1 - num2).abs() <= epsilon
 }
