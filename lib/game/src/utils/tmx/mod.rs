@@ -1,22 +1,26 @@
 
+extern crate noisy_float;
+
 extern crate xml;
 
 mod layer;
+mod tileset;
 mod node;
 
 use std::fs::File;
-use std::io::{BufRead, BufReader, Read};
+use std::io::{Read};
 use std::path::Path;
 use std::collections::HashMap;
-
+use std::rc::Rc;
 use self::xml::reader::{ParserConfig};
 
 use self::layer::*;
+use self::tileset::*;
 use self::node::*;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct TmxContent {
-    pub entries: HashMap<String, TmxEntry>,
+    pub entries: HashMap<Rc<String>, TmxEntry>,
 }
 
 impl TmxContent {
@@ -38,7 +42,7 @@ impl TmxContent {
             content: "".to_string(),
         };
 
-        Node::read_elements(&mut root, &mut reader);
+        read_node_elements(&mut root, &mut reader);
 
         create_tmx_content(& root)
     }
@@ -60,8 +64,12 @@ fn create_tmx_content(root: &Node) -> TmxContent {
     for node in root.children[0].children.iter() {
         match node.name.as_ref() {
             "layer" => {
-                let layer = TmxLayer::new(&node);
+                let layer = TmxLayer::from(node);
                 entries.insert(layer.name.clone(), TmxEntry::Layer(layer));
+            }
+            "tileset" => {
+                let tileset = TmxTileset::from(node);
+                entries.insert(tileset.name.clone(), TmxEntry::Tileset(tileset));
             }
             _ => {}
         }
@@ -75,6 +83,7 @@ fn create_tmx_content(root: &Node) -> TmxContent {
 #[derive(Debug, PartialEq, Eq)]
 pub enum TmxEntry {
     Layer(TmxLayer),
+    Tileset(TmxTileset),
 }
 
 #[cfg(test)]
@@ -88,10 +97,23 @@ mod test {
 
         let tmx_content = TmxContent::from_file(file_name);
 
-        let &TmxEntry::Layer(ref layer) = tmx_content.entries.get("Background_Layer").unwrap();
-        let data = layer.grid[0][0];
+        handle_tmx_entry(tmx_content.entries.get(&"Background_Layer".to_string()).unwrap());
+        handle_tmx_entry(tmx_content.entries.get(&"Floor".to_string()).unwrap());
+    }
 
-        assert_eq!(data, 1605);
+    fn handle_tmx_entry(entry: &TmxEntry) {
+        match entry {
+            &TmxEntry::Layer(ref layer) => {
+                let data = layer.grid[0][0];
+                assert_eq!(data, 1605);
+            }
+            &TmxEntry::Tileset(ref tileset) => {
+                let PropertyEnum::Float(got) = tileset.tiles.get(&1161).unwrap().properties.get(&"Penalty".to_string()).unwrap().value;
+                let should_be = 1.2;
+
+                assert_eq!(got, should_be);
+            }
+        }
     }
 
 }

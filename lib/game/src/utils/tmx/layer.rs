@@ -1,16 +1,18 @@
 
 use super::Node;
 
+use std::rc::Rc;
+
 #[derive(Debug, PartialEq, Eq)]
 pub struct TmxLayer {
-    pub name: String,
+    pub name: Rc<String>,
     pub width: usize,
     pub height: usize,
     pub grid: Grid,
 }
 
-impl TmxLayer {
-    pub fn new(node: &Node) -> TmxLayer {
+impl<'a> From<&'a Node> for TmxLayer {
+    fn from(node: &Node) -> TmxLayer {
 
         let mut width = 0;
         let mut height = 0;
@@ -44,7 +46,7 @@ impl TmxLayer {
         }
 
         TmxLayer {
-            name: name.clone(),
+            name: Rc::new(name),
             width,
             height,
             grid,
