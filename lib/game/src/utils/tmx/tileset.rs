@@ -17,6 +17,26 @@ pub struct TmxTileset {
     pub image_file_name: String,
 }
 
+impl TmxTileset {
+
+    pub fn tile(&self, id: usize) -> Option<&Tile> {
+        self.tiles.get(&id)
+    }
+
+    pub fn property<T>(&self, id: usize, name: &str) -> Option<T> {
+        if let Some(tile) = self.tile(id) {
+            if let Some(property) = tile.properties.get(&Rc::new(name.to_string())) {
+                match property.value {
+                    PropertyEnum::Float(f) => { return Some(f) }
+                };
+            }
+        }
+
+        None
+    }
+
+}
+
 impl<'a> From<&'a Node> for TmxTileset {
     fn from(node: &'a Node) -> TmxTileset {
 

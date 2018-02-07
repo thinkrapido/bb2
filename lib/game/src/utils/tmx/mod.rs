@@ -108,8 +108,9 @@ mod test {
                 assert_eq!(data, 1605);
             }
             &TmxEntry::Tileset(ref tileset) => {
-                let PropertyEnum::Float(got) = tileset.tiles.get(&1161).unwrap().properties.get(&"Penalty".to_string()).unwrap().value;
-                let should_be = 1.2;
+                //let PropertyEnum::Float(got) = tileset.tiles.get(&1161).unwrap().properties.get(&"Penalty".to_string()).unwrap().value;
+                let got = tileset.property(1161, "Penalty");
+                let should_be = Some(1.2);
 
                 assert_eq!(got, should_be);
             }
