@@ -1,4 +1,3 @@
-
 extern crate noisy_float;
 
 extern crate xml;
@@ -89,6 +88,7 @@ pub enum TmxEntry {
 #[cfg(test)]
 mod test {
 
+    use super::noisy_float::*;
     use super::*;
 
     #[test]
@@ -110,9 +110,12 @@ mod test {
             &TmxEntry::Tileset(ref tileset) => {
                 //let PropertyEnum::Float(got) = tileset.tiles.get(&1161).unwrap().properties.get(&"Penalty".to_string()).unwrap().value;
                 let got = tileset.property(1161, "Penalty");
-                let should_be = Some(1.2);
+                let should_be = prelude::r32(1.2);
 
-                assert_eq!(got, should_be);
+                match got {
+                    Some(&PropertyEnum::Float(f)) => assert_eq!(f, should_be),
+                    _ => {}
+                };
             }
         }
     }

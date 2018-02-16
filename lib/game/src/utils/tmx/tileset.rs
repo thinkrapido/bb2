@@ -1,5 +1,4 @@
-extern crate noisy_float;
-use self::noisy_float::prelude::*;
+use super::noisy_float::prelude::*;
 
 use super::Node;
 
@@ -23,12 +22,10 @@ impl TmxTileset {
         self.tiles.get(&id)
     }
 
-    pub fn property<T>(&self, id: usize, name: &str) -> Option<T> {
+    pub fn property(&self, id: usize, name: &str) -> Option<&PropertyEnum> {
         if let Some(tile) = self.tile(id) {
             if let Some(property) = tile.properties.get(&Rc::new(name.to_string())) {
-                match property.value {
-                    PropertyEnum::Float(f) => { return Some(f) }
-                };
+                Some(&property.value);
             }
         }
 
