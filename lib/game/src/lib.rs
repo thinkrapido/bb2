@@ -1,4 +1,6 @@
 
+extern crate noisy_float;
+
 mod utils;
 pub mod world;
 

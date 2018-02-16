@@ -1,6 +1,9 @@
-use super::noisy_float::prelude::*;
+
+use ::noisy_float::*;
+use ::noisy_float::prelude::*;
 
 use super::Node;
+use super::property::*;
 
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -12,7 +15,7 @@ pub struct TmxTileset {
     pub rows: usize,
     pub tilewidth: usize,
     pub tileheight: usize,
-    pub tiles: HashMap<Rc<usize>, Tile>,
+    pub tiles: HashMap<usize, Tile>,
     pub image_file_name: String,
 }
 
@@ -99,7 +102,7 @@ impl<'a> From<&'a Node> for TmxTileset {
                         match k.as_ref() {
                             "id" => {
                                 let mut tile = Tile::new(firstgid + v.parse::<usize>().unwrap()); 
-                                tile.properties = get_properties(node);
+                                tile.properties = Property::properties_from_node(node);
                                 tiles.insert(tile.id.clone(), tile);
                             }
                             _ => {}
@@ -122,78 +125,18 @@ impl<'a> From<&'a Node> for TmxTileset {
     }
 }
 
-fn get_properties(node: &Node) -> HashMap<Rc<String>, Property> {
-
-    let mut properties = HashMap::new();
-
-    for node in node.children.iter() {
-        match node.name.as_ref() {
-            "properties" => {
-                for node in node.children.iter() {
-                    match node.name.as_ref() {
-                        "property" => {
-                            let mut name = String::new();
-                            let mut type_ = String::new();
-                            let mut value = String::new();
-
-                            for (ref k, ref v) in &node.attributes {
-                                match k.as_ref() {
-                                    "name" => {
-                                        name.push_str(v.clone());
-                                    }
-                                    "type" => {
-                                        type_.push_str(v.clone());
-                                    }
-                                    "value" => {
-                                        value.push_str(v.clone());
-                                    }
-                                    _ => {}
-                                }
-                            }
-                            let property = Property {
-                                name: Rc::new(name),
-                                value: match type_.as_ref() {
-                                    "float" => PropertyEnum::Float(r32(value.parse::<f32>().unwrap())),
-                                    _ => panic!("no property type match"),
-                                }
-                            };
-                            properties.insert(property.name.clone(), property);
-                        }
-                        _ => {}
-                    }
-                }
-            }
-            _ => {}
-        }
-    }
-
-    properties
-}
-
 #[derive(Debug, PartialEq, Eq)]
 pub struct Tile {
-    pub id: Rc<usize>,
+    pub id: usize,
     pub properties: HashMap<Rc<String>, Property>,
 }
-
 
 impl Tile {
     pub fn new(id: usize) -> Tile{
         Tile {
-            id: Rc::new(id),
+            id,
             properties: HashMap::new(),
         }
     }
-}
-
-#[derive(Debug, PartialEq, Eq)]
-pub struct Property {
-    pub name: Rc<String>,
-    pub value: PropertyEnum,
-}
-
-#[derive(Debug, PartialEq, Eq)]
-pub enum PropertyEnum {
-    Float(R32),
 }
 

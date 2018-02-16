@@ -1,9 +1,9 @@
-extern crate noisy_float;
-
 extern crate xml;
 
-mod layer;
+mod property;
 mod tileset;
+mod layer;
+mod objectgroup;
 mod node;
 
 use std::fs::File;
@@ -13,8 +13,10 @@ use std::collections::HashMap;
 use std::rc::Rc;
 use self::xml::reader::{ParserConfig};
 
-use self::layer::*;
+use self::property::*;
 use self::tileset::*;
+use self::layer::*;
+use self::objectgroup::*;
 use self::node::*;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -70,6 +72,10 @@ fn create_tmx_content(root: &Node) -> TmxContent {
                 let tileset = TmxTileset::from(node);
                 entries.insert(tileset.name.clone(), TmxEntry::Tileset(tileset));
             }
+            "objectgroup" => {
+                let object_group = TmxObjectGroup::from(node);
+                entries.insert(object_group.name.clone(), TmxEntry::ObjectGroup(object_group));
+            }
             _ => {}
         }
     }
@@ -83,12 +89,13 @@ fn create_tmx_content(root: &Node) -> TmxContent {
 pub enum TmxEntry {
     Layer(TmxLayer),
     Tileset(TmxTileset),
+    ObjectGroup(TmxObjectGroup),
 }
 
 #[cfg(test)]
 mod test {
 
-    use super::noisy_float::*;
+    use ::noisy_float::*;
     use super::*;
 
     #[test]
@@ -99,6 +106,7 @@ mod test {
 
         handle_tmx_entry(tmx_content.entries.get(&"Background_Layer".to_string()).unwrap());
         handle_tmx_entry(tmx_content.entries.get(&"Floor".to_string()).unwrap());
+        handle_tmx_entry(tmx_content.entries.get(&"MAP_QUEST_DISCOVER_LAYER".to_string()).unwrap());
     }
 
     fn handle_tmx_entry(entry: &TmxEntry) {
@@ -116,6 +124,15 @@ mod test {
                     Some(&PropertyEnum::Float(f)) => assert_eq!(f, should_be),
                     _ => {}
                 };
+            }
+            &TmxEntry::ObjectGroup(ref object_group) => {
+                let got = object_group.objects.get(&400).unwrap().properties.get(&"taskID".to_string()).unwrap();
+                match &got.value {
+                    &PropertyEnum::String(ref got) => {
+                        assert_eq!(got, "4");
+                    }
+                    _ => assert!(false)
+                }
             }
         }
     }
